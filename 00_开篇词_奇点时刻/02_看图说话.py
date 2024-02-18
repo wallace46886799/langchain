@@ -49,7 +49,7 @@ class ImageCapTool(BaseTool):
 #---- PartIII 初始化并运行LangChain智能体
 # 设置OpenAI的API密钥并初始化大语言模型（OpenAI的Text模型）
 # os.environ["OPENAI_API_KEY"] = '你的OpenAI API Key'
-llm = OpenAI(temperature=0.2)
+llm = OpenAI(model_name="gpt-4", temperature=0.2)
 
 # 使用工具初始化智能体并运行
 tools = [ImageCapTool()]
