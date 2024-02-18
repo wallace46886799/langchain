@@ -11,8 +11,8 @@ import requests
 from PIL import Image
 from transformers import BlipProcessor, BlipForConditionalGeneration
 from langchain.tools import BaseTool
-# from langchain import OpenAI
-from langchain_openai import OpenAI
+from langchain import OpenAI
+# from langchain_openai import OpenAI
 from langchain.agents import initialize_agent, AgentType
 # from langchain.agents import create_react_agent # 未来需要改成下面的设计
 
