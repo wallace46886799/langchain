@@ -5,9 +5,9 @@ https://time.geekbang.org/column/intro/100617601
 from dotenv import load_dotenv  # 用于加载环境变量
 load_dotenv()  # 加载 .env 文件中的环境变量
 
-# import os
+import os
 # os.environ["OPENAI_API_KEY"] = '你的OpenAI API Key'
-
+# os.environ["OPENAI_API_BASE"] = "https://api.chatanywhere.cn/v1"
 # import openai
 # # openai.api_key = '你的OpenAI API Key'
 
@@ -20,7 +20,8 @@ load_dotenv()  # 加载 .env 文件中的环境变量
 # print(response.choices[0].text.strip())
 
 from openai import OpenAI
-client = OpenAI()
+client = OpenAI(base_url="https://api.chatanywhere.tech/v1")
+# client = OpenAI()
 
 response = client.completions.create(
   model="gpt-3.5-turbo-instruct",

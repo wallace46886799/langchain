@@ -14,6 +14,8 @@ from langchain.document_loaders import TextLoader
 
 # 加载Documents
 base_dir = '.\OneFlower' # 文档的存放目录
+
+base_dir =  "/Users/Frank/Work/Frameworks/Github/langchain/02_文档QA系统/OneFlower"
 documents = []
 for file in os.listdir(base_dir): 
     # 构建完整的文件路径
@@ -36,9 +38,10 @@ chunked_documents = text_splitter.split_documents(documents)
 # 3.Store 将分割嵌入并存储在矢量数据库Qdrant中
 from langchain.vectorstores import Qdrant
 from langchain.embeddings import OpenAIEmbeddings
+
 vectorstore = Qdrant.from_documents(
     documents=chunked_documents, # 以分块的文档
-    embedding=OpenAIEmbeddings(), # 用OpenAI的Embedding Model做嵌入
+    embedding=OpenAIEmbeddings(openai_api_base="https://api.chatanywhere.cn/v1"), # 用OpenAI的Embedding Model做嵌入
     location=":memory:",  # in-memory 存储
     collection_name="my_documents",) # 指定collection_name
 
