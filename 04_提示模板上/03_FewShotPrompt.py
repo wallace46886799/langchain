@@ -43,23 +43,24 @@ prompt = FewShotPromptTemplate(
 print(prompt.format(flower_type="野玫瑰", occasion="爱情"))
 
 # 4. 把提示传递给大模型
-import os
-os.environ["OPENAI_API_KEY"] = '你的OpenAI API Key'
+from dotenv import load_dotenv  # 用于加载环境变量
+load_dotenv()  # 加载 .env 文件中的环境变量
 from langchain.llms import OpenAI
-model = OpenAI(model_name='text-davinci-003')
+model = OpenAI(model_name='gpt-3.5-turbo-instruct')
 result = model(prompt.format(flower_type="野玫瑰", occasion="爱情"))
 print(result)
 
 # 5. 使用示例选择器
 from langchain.prompts.example_selector import SemanticSimilarityExampleSelector
-from langchain.vectorstores import Qdrant
+# from langchain.vectorstores import Qdrant
+from langchain.vectorstores import Chroma
 from langchain.embeddings import OpenAIEmbeddings
 
 # 初始化示例选择器
 example_selector = SemanticSimilarityExampleSelector.from_examples(
     samples,
-    OpenAIEmbeddings(),
-    Qdrant,
+    OpenAIEmbeddings(openai_api_base="https://api.chatanywhere.cn/v1"),
+    Chroma,
     k=1
 )
 
@@ -70,7 +71,9 @@ prompt = FewShotPromptTemplate(
     suffix="鲜花类型: {flower_type}\n场合: {occasion}", 
     input_variables=["flower_type", "occasion"]
 )
-print(prompt.format(flower_type="红玫瑰", occasion="爱情"))
+real_prompt = prompt.format(flower_type="红玫瑰", occasion="爱情")
+print(real_prompt)
 
-
-
+model = OpenAI(model_name='gpt-3.5-turbo-instruct')
+result = model(real_prompt)
+print(result)

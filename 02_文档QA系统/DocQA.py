@@ -15,7 +15,7 @@ from langchain.document_loaders import TextLoader
 # 加载Documents
 base_dir = '.\OneFlower' # 文档的存放目录
 
-base_dir =  "/Users/Frank/Work/Frameworks/Github/langchain/02_文档QA系统/OneFlower"
+base_dir = "/Users/Frank/Work/Frameworks/Github/langchain/02_文档QA系统/OneFlower"
 documents = []
 for file in os.listdir(base_dir): 
     # 构建完整的文件路径

@@ -1,6 +1,10 @@
 # 设置API Key
+import warnings
+warnings.filterwarnings("ignore")
+
 import os
-os.environ["OPENAI_API_KEY"] = 'Your OpenAI Key'
+from dotenv import load_dotenv  # 用于加载环境变量
+load_dotenv()  # 加载 .env 文件中的环境变量
 
 # 导入所需的库和模块
 from collections import deque
@@ -271,6 +275,8 @@ class BabyAGI(Chain, BaseModel):
 
 # 主执行部分
 if __name__ == "__main__":
+
+
     OBJECTIVE = "分析一下北京市今天的气候情况，写出鲜花储存策略。"
     llm = OpenAI(temperature=0)
     verbose = False

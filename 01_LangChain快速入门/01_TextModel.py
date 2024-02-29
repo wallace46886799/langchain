@@ -12,7 +12,7 @@ import os
 # # openai.api_key = '你的OpenAI API Key'
 
 # response = openai.Completion.create(
-#   model="text-davinci-003",
+#   model="gpt-3.5-turbo-instruct",
 #   temperature=0.5,
 #   max_tokens=100,
 #   prompt="请给我的花店起个名")

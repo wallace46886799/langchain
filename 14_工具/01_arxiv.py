@@ -1,6 +1,6 @@
 # 设置OpenAI API的密钥
 import os
-os.environ["OPENAI_API_KEY"] = 'Your key'
+from dotenv import load_dotenv  # 用于加载环境变量load_dotenv()  # 加载 .env 文件中的环境变量
 
 # 导入库
 from langchain.chat_models import ChatOpenAI

@@ -1,10 +1,12 @@
 # 设置OpenAI的API密钥
-import os
-os.environ["OPENAI_API_KEY"] = 'Your OpenAI Key'
+# import os
+# os.environ["OPENAI_API_KEY"] = 'Your OpenAI Key'
+from dotenv import load_dotenv  # 用于加载环境变量
+load_dotenv()  # 加载 .env 文件中的环境变量
 
 # 导入文档加载器模块，并使用TextLoader来加载文本文件
 from langchain.document_loaders import TextLoader
-loader = TextLoader('./OneFlower/易速鲜花花语大全.txt', encoding='utf8')
+loader = TextLoader('../02_文档QA系统/OneFlower/易速鲜花花语大全.txt', encoding='utf8')
 
 # 使用VectorstoreIndexCreator来从加载器创建索引
 from langchain.indexes import VectorstoreIndexCreator

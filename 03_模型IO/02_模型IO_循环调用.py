@@ -13,13 +13,19 @@ prompt = PromptTemplate.from_template(template)
 print(prompt)
 
 # 设置OpenAI API Key
-import os
-os.environ["OPENAI_API_KEY"] = '你的OpenAI API Key'
+from dotenv import load_dotenv  # 用于加载环境变量
+load_dotenv()  # 加载 .env 文件中的环境变量
 
 # 导入LangChain中的OpenAI模型接口
 from langchain import OpenAI
 # 创建模型实例
-model = OpenAI(model_name='text-davinci-003')
+# model = OpenAI(model_name='gpt-3.5-turbo-instruct')
+model = OpenAI(model_name='gpt-3.5-turbo-instruct')
+
+# 导入LangChain中的OpenAI模型接口
+# from langchain import OpenAI
+# # 创建模型实例
+# model = OpenAI(model_name='gpt-3.5-turbo-instruct')
 
 # 多种花的列表
 flowers = ["玫瑰", "百合", "康乃馨"]

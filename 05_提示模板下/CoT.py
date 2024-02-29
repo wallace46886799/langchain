@@ -2,8 +2,11 @@
 https://time.geekbang.org/column/intro/100617601
 作者 黄佳'''
 # 设置环境变量和API密钥
-import os
-os.environ["OPENAI_API_KEY"] = '你的OpenAI API Key'
+# import os
+# os.environ["OPENAI_API_KEY"] = '你的OpenAI API Key'
+
+from dotenv import load_dotenv  # 用于加载环境变量
+load_dotenv()  # 加载 .env 文件中的环境变量
 
 # 创建聊天模型
 from langchain.chat_models import ChatOpenAI
@@ -43,3 +46,8 @@ prompt = chat_prompt.format_prompt(human_input="我想为我的女朋友购买�
 # 接收用户的询问，返回回答结果
 response = llm(prompt)
 print(response)
+
+# content='根据你女朋友喜欢粉色和紫色的喜好，我会推荐以下几种花给你：\n\n
+# 1. **粉色康乃馨（Carnation）**：康乃馨是一种美丽且经典的花朵，粉色的康乃馨通常象征着母爱、友谊和善良。它们的花语也包括关怀和感激之情，适合表达对女朋友的关心和感激之情。\n\n
+# 2. **紫色勿忘我（Forget-Me-Not）**：勿忘我是一种小巧可爱的花朵，紫色的勿忘我通常象征着真爱和忠诚。这种花也代表着永恒的爱和美好的回忆，适合表达对女朋友的真挚感情。\n\n
+# 3. **粉色玫瑰（Pink Rose）**：粉色玫瑰是一种温柔和浪漫的花朵，粉色通常代表着温柔、善良和关怀。送粉色玫瑰可以表达对女朋友的温柔爱意和关怀之情。\n\n综上所述，你可以考虑选择粉色康乃馨、紫色勿忘我或粉色玫瑰作为送给女朋友的花束。这些花朵都能很好地符合她喜欢粉色和紫色的喜好，同时传达出你对她的关心和爱意。祝你们的感情更加美好！'

@@ -37,6 +37,12 @@ class FlowerDescription(BaseModel):
 from langchain.output_parsers import PydanticOutputParser
 output_parser = PydanticOutputParser(pydantic_object=FlowerDescription)
 
+
+from langchain.chat_models import ChatOpenAI
+from langchain.output_parsers import OutputFixingParser
+new_parser = OutputFixingParser.from_llm(parser=output_parser, llm=ChatOpenAI())
+output_parser = new_parser
+
 # 获取输出格式指示
 format_instructions = output_parser.get_format_instructions()
 # 打印提示

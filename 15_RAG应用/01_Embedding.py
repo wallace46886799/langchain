@@ -1,6 +1,9 @@
 # 设置OpenAI的API密钥
 import os
-os.environ["OPENAI_API_KEY"] = 'Your OpenAI Key'
+# os.environ["OPENAI_API_KEY"] = 'Your OpenAI Key'
+from dotenv import load_dotenv  # 用于加载环境变量
+load_dotenv()  # 加载 .env 文件中的环境变量
+
 
 # 初始化Embedding类
 from langchain.embeddings import OpenAIEmbeddings

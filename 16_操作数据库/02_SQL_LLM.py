@@ -1,5 +1,6 @@
 import os
-os.environ["OPENAI_API_KEY"] = 'Your OpenAI Key'
+from dotenv import load_dotenv  # 用于加载环境变量
+load_dotenv()  # 加载 .env 文件中的环境变量
 
 # 导入langchain的实用工具和相关的模块
 from langchain.utilities import SQLDatabase

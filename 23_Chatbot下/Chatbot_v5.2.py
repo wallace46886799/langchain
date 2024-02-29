@@ -12,7 +12,8 @@ from langchain.document_loaders import Docx2txtLoader
 from langchain.document_loaders import TextLoader
 
 # 设置OpenAI API密钥
-os.environ["OPENAI_API_KEY"] = 'Your Key'  
+from dotenv import load_dotenv  # 用于加载环境变量
+load_dotenv()  # 加载 .env 文件中的环境变量
 
 class ChatbotWithRetrieval:
     def __init__(self, dir):
@@ -69,8 +70,9 @@ class ChatbotWithRetrieval:
         self.conversation_history += f"你: {user_input}\nChatbot: {response['answer']}\n"
         return self.conversation_history
 
+
 if __name__ == "__main__":
-    folder = "OneFlower"
+    folder = "../02_文档QA系统/OneFlower"
     bot = ChatbotWithRetrieval(folder)
 
     # 定义 Gradio 界面

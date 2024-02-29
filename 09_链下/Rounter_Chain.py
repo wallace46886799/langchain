@@ -5,8 +5,11 @@ import warnings
 warnings.filterwarnings('ignore')
 
 # 设置OpenAI API密钥
-import os
-os.environ["OPENAI_API_KEY"] = 'Your Key'
+# import os
+# os.environ["OPENAI_API_KEY"] = 'Your Key'
+
+from dotenv import load_dotenv  # 用于加载环境变量
+load_dotenv()  # 加载 .env 文件中的环境变量
 
 # 构建两个场景的模板
 flower_care_template = """
@@ -100,6 +103,7 @@ chain = MultiPromptChain(
 )
 
 # 测试1
+# TODO. 出现了JSON格式错误
 print(chain.run("如何为玫瑰浇水？"))
 # 测试2              
 print(chain.run("如何为婚礼场地装饰花朵？"))

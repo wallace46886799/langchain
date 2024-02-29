@@ -1,6 +1,6 @@
 # 设置OpenAI API的密钥
 import os 
-os.environ["OPENAI_API_KEY"] = 'Your Key' 
+from dotenv import load_dotenv  # 用于加载环境变量load_dotenv()  # 加载 .env 文件中的环境变量
 
 # 导入与Gmail交互所需的工具包
 from langchain.agents.agent_toolkits import GmailToolkit
@@ -9,7 +9,7 @@ from langchain.agents.agent_toolkits import GmailToolkit
 toolkit = GmailToolkit()
 
 # 从gmail工具中导入一些有用的功能
-from langchain.tools.gmail.utils import build_resource_service, get_gmail_credentials
+from langchain_community.tools.gmail.utils import build_resource_service, get_gmail_credentials
 
 # 获取Gmail API的凭证，并指定相关的权限范围
 credentials = get_gmail_credentials(

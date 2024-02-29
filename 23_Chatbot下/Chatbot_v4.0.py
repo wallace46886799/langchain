@@ -12,7 +12,8 @@ from langchain.document_loaders import Docx2txtLoader
 from langchain.document_loaders import TextLoader
 
 # 设置OpenAI API密钥
-os.environ["OPENAI_API_KEY"] = 'Your Key'  
+from dotenv import load_dotenv  # 用于加载环境变量
+load_dotenv()  # 加载 .env 文件中的环境变量
 
 # ChatBot类的实现
 class ChatbotWithRetrieval:
@@ -80,7 +81,7 @@ def main():
 
     # Check if the 'bot' attribute exists in the session state
     if "bot" not in st.session_state:
-        st.session_state.bot = ChatbotWithRetrieval("OneFlower")
+        st.session_state.bot = ChatbotWithRetrieval("../02_文档QA系统/OneFlower")
 
     user_input = st.text_input("请输入你的问题：")
     

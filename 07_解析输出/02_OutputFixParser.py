@@ -26,8 +26,11 @@ from langchain.chat_models import ChatOpenAI
 from langchain.output_parsers import OutputFixingParser
 
 # 设置OpenAI API密钥
-import os
-os.environ["OPENAI_API_KEY"] = 'Your OpenAI API Key'
+# import os
+# os.environ["OPENAI_API_KEY"] = 'Your OpenAI API Key'
+
+from dotenv import load_dotenv  # 用于加载环境变量
+load_dotenv()  # 加载 .env 文件中的环境变量
 
 # 使用OutputFixingParser创建一个新的解析器，该解析器能够纠正格式不正确的输出
 new_parser = OutputFixingParser.from_llm(parser=parser, llm=ChatOpenAI())

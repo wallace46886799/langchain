@@ -1,7 +1,7 @@
 # 设置OpenAI API密钥
 import os
-os.environ["OPENAI_API_KEY"] = 'Your Key'
-
+from dotenv import load_dotenv  # 用于加载环境变量
+load_dotenv()  # 加载 .env 文件中的环境变量
 # 导入所需的库和模块
 from langchain.schema import HumanMessage, SystemMessage
 from langchain.memory import ConversationBufferMemory
@@ -15,7 +15,7 @@ from langchain.chains import LLMChain
 from langchain.chat_models import ChatOpenAI
 
 # 设置OpenAI API密钥
-os.environ["OPENAI_API_KEY"] = 'Your Key'  
+from dotenv import load_dotenv  # 用于加载环境变量load_dotenv()  # 加载 .env 文件中的环境变量
 
 # 带记忆的聊天机器人类
 class ChatbotWithMemory:
