@@ -8,7 +8,7 @@ from langchain.llms.base import LLM
 
 # 模型的名称和路径常量
 MODEL_NAME = 'llama-2-7b-chat.ggmlv3.q4_K_S.bin'
-MODEL_PATH = '/home/huangj/03_Llama/'
+MODEL_PATH = '/Users/Frank/Work/Frameworks/Temp/llama2/'
 
 # 自定义的LLM类，继承自基础LLM类
 class CustomLLM(LLM):

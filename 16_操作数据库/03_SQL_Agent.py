@@ -10,7 +10,7 @@ from langchain.agents.agent_types import AgentType
 
 # 连接到FlowerShop数据库
 db = SQLDatabase.from_uri("sqlite:///FlowerShop.db")
-llm = OpenAI(temperature=0, verbose=True)
+llm = ChatOpenAI(temperature=0, verbose=True)
 
 # 创建SQL Agent
 agent_executor = create_sql_agent(

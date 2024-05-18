@@ -18,11 +18,11 @@ from langchain.agents.tools import Tool
 from langchain import LLMMathChain
 
 search = SerpAPIWrapper()
-llm = OpenAI(temperature=0)
+llm = ChatOpenAI(temperature=0)
 llm_math_chain = LLMMathChain.from_llm(llm=llm, verbose=True)
 tools = [
     Tool(
-        name = "Search",
+        name="Search",
         func=search.run,
         description="useful for when you need to answer questions about current events"
     ),

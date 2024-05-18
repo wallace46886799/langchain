@@ -10,9 +10,9 @@ import os
 # os.environ["OPENAI_API_KEY"] = 'Your OpenAI API Key'
 
 # 创建模型实例
-from langchain import OpenAI
+from langchain_openai import ChatOpenAI
 # from langchain.chat_models import ChatOpenAI
-model = OpenAI(model_name='gpt-3.5-turbo-instruct')
+model = ChatOpenAI(model_name='gpt-3.5-turbo')
 # model = ChatOpenAI(model_name='gpt-4')
 
 # ------Part 2
@@ -38,7 +38,7 @@ from langchain.output_parsers import PydanticOutputParser
 output_parser = PydanticOutputParser(pydantic_object=FlowerDescription)
 
 
-from langchain.chat_models import ChatOpenAI
+# from langchain.chat_models import ChatOpenAI
 from langchain.output_parsers import OutputFixingParser
 new_parser = OutputFixingParser.from_llm(parser=output_parser, llm=ChatOpenAI())
 output_parser = new_parser
@@ -51,7 +51,8 @@ print("输出格式：",format_instructions)
 
 # ------Part 4
 # 创建提示模板
-from langchain import PromptTemplate
+# from langchain import PromptTemplate
+from langchain_core.prompts import PromptTemplate
 prompt_template = """您是一位专业的鲜花店文案撰写员。
 对于售价为 {price} 元的 {flower} ，您能提供一个吸引人的简短中文描述吗？
 {format_instructions}"""
@@ -71,10 +72,10 @@ for flower, price in zip(flowers, prices):
     print("提示：", input)
 
     # 获取模型的输出
-    output = model(input)
+    output = model.invoke(input)
 
     # 解析模型的输出
-    parsed_output = output_parser.parse(output)
+    parsed_output = output_parser.parse(output.content)
     parsed_output_dict = parsed_output.dict()  # 将Pydantic格式转换为字典
 
     # 将解析后的输出添加到DataFrame中

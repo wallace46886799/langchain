@@ -1,6 +1,7 @@
 '''欢迎来到LangChain实战课
 https://time.geekbang.org/column/intro/100617601
 作者 黄佳'''
+from loguru import logger
 # 导入LangChain中的提示模板
 from langchain import PromptTemplate
 # 创建原始模板
@@ -13,8 +14,9 @@ prompt = PromptTemplate.from_template(template)
 print(prompt)
 
 # 设置HuggingFace API Token
-import os
-os.environ['HUGGINGFACEHUB_API_TOKEN'] = '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'
+# import os
+from dotenv import load_dotenv  # 用于加载环境变量
+load_dotenv()  # 加载 .env 文件中的环境变量
 
 # 导入LangChain中的OpenAI模型接口
 from langchain import HuggingFaceHub
@@ -22,7 +24,8 @@ from langchain import HuggingFaceHub
 model= HuggingFaceHub(repo_id="google/flan-t5-large")
 # 输入提示
 input = prompt.format(flower_name=["rose"], price='50')
+logger.debug(input)
 # 得到模型的输出
 output = model(input)
 # 打印输出内容
-print(output)
+logger.debug(output)

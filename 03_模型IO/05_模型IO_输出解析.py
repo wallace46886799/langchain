@@ -2,7 +2,9 @@
 https://time.geekbang.org/column/intro/100617601
 作者 黄佳'''
 # 通过LangChain调用模型
-from langchain import PromptTemplate, OpenAI
+from langchain import PromptTemplate
+from langchain_openai import ChatOpenAI
+from loguru import logger
 #
 # # 导入OpenAI Key
 # import os
@@ -17,8 +19,8 @@ prompt_template = """您是一位专业的鲜花店文案撰写员。
 {format_instructions}"""
 
 # 创建模型实例
-# model = OpenAI(model_name='gpt-3.5-turbo-instruct')
-model = OpenAI(model_name='gpt-3.5-turbo-instruct')
+# model = ChatOpenAI(model_name='gpt-3.5-turbo')
+model = ChatOpenAI(model_name='gpt-3.5-turbo')
 
 # 导入结构化输出解析器和ResponseSchema
 from langchain.output_parsers import StructuredOutputParser, ResponseSchema
@@ -47,13 +49,13 @@ df = pd.DataFrame(columns=["flower", "price", "description", "reason"]) # 先声
 for flower, price in zip(flowers, prices):
     # 根据提示准备模型的输入
     input = prompt.format(flower_name=flower, price=price)
-
+    logger.debug(input)
     # 获取模型的输出
-    output = model(input)
-    
+    output = model.invoke(input)
+    logger.debug(output)
     # 解析模型的输出（这是一个字典结构）
-    parsed_output = output_parser.parse(output)
-
+    parsed_output = output_parser.parse(output.content)
+    logger.debug(parsed_output)
     # 在解析后的输出中添加“flower”和“price”
     parsed_output['flower'] = flower
     parsed_output['price'] = price
@@ -62,7 +64,7 @@ for flower, price in zip(flowers, prices):
     df.loc[len(df)] = parsed_output  
 
 # 打印字典
-print(df.to_dict(orient='records'))
+logger.debug(df.to_dict(orient='records'))
 
 # 保存DataFrame到CSV文件
 df.to_csv("flowers_with_descriptions.csv", index=False)

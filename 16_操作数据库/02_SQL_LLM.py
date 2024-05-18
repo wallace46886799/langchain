@@ -11,7 +11,7 @@ from langchain_experimental.sql import SQLDatabaseChain
 db = SQLDatabase.from_uri("sqlite:///FlowerShop.db")
 
 # 创建OpenAI的低级语言模型（LLM）实例，这里我们设置温度为0，意味着模型输出会更加确定性
-llm = OpenAI(temperature=0, verbose=True)
+llm = ChatOpenAI(temperature=0, verbose=True)
 
 # 创建SQL数据库链实例，它允许我们使用LLM来查询SQL数据库
 db_chain = SQLDatabaseChain.from_llm(llm, db, verbose=True)

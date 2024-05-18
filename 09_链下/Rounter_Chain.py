@@ -1,6 +1,8 @@
-'''欢迎来到LangChain实战课
+"""
+欢迎来到LangChain实战课
 https://time.geekbang.org/column/intro/100617601
-作者 黄佳'''
+作者 黄佳
+"""
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -39,12 +41,15 @@ prompt_infos = [
 ]
 
 # 初始化语言模型
-from langchain.llms import OpenAI
-llm = OpenAI()
+from langchain.chains import LLMChain
+from langchain_core.prompts import PromptTemplate
+from langchain_openai import ChatOpenAI
+
+llm = ChatOpenAI()
 
 # 构建目标链
-from langchain.chains.llm import LLMChain
-from langchain.prompts import PromptTemplate
+# from langchain.chains.llm import LLMChain
+# from langchain.prompts import PromptTemplate
 
 chain_map = {}
 
@@ -101,11 +106,11 @@ chain = MultiPromptChain(
     default_chain=default_chain,
     verbose=True
 )
-
+from loguru import logger
 # 测试1
 # TODO. 出现了JSON格式错误
-print(chain.run("如何为玫瑰浇水？"))
+logger.debug(chain.run("如何为玫瑰浇水？"))
 # 测试2              
-print(chain.run("如何为婚礼场地装饰花朵？"))
+logger.debug(chain.run("如何为婚礼场地装饰花朵？"))
 # 测试3         
-print(chain.run("如何区分阿豆和罗豆？"))
+logger.debug(chain.run("如何区分阿豆和罗豆？"))

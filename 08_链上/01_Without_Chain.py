@@ -10,7 +10,8 @@ load_dotenv()  # 加载 .env 文件中的环境变量
 
 #----第一步 创建提示
 # 导入LangChain中的提示模板
-from langchain import PromptTemplate
+# from langchain import PromptTemplate
+from langchain_core.prompts import PromptTemplate
 # 原始字符串模板
 template = "{flower}的花语是?"
 # 创建LangChain模板
@@ -22,9 +23,10 @@ print(prompt)
 
 #----第二步 创建并调用模型 
 # 导入LangChain中的OpenAI模型接口
-from langchain import OpenAI
+from langchain_openai import ChatOpenAI
 # 创建模型实例
-model = OpenAI(temperature=0)
+model = ChatOpenAI(temperature=0)
 # 传入提示，调用模型，返回结果
-result = model(prompt)
-print(result)
+result = model.invoke(prompt)
+from loguru import logger
+logger.debug(result.content)

@@ -13,12 +13,12 @@ os.environ["SERPAPI_API_KEY"] = '068163c315bc7a57a8d7c5321f79367aaa594dd3580661c
 
 
 
-from langchain import OpenAI, SerpAPIWrapper
+from langchain_openai import ChatOpenAI, SerpAPIWrapper
 from langchain.chat_models import ChatOpenAI
 from langchain.agents import initialize_agent, Tool
 from langchain.agents import AgentType
 
-# llm = OpenAI(temperature=0)
+# llm = ChatOpenAI(temperature=0)
 
 llm = ChatOpenAI(temperature=0.5)
 

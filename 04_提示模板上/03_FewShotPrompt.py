@@ -2,8 +2,9 @@
 https://time.geekbang.org/column/intro/100617601
 作者 黄佳'''
 # 1. 创建一些示例
-samples = [
+from loguru import logger
 
+samples = [
   {
     "flower_type": "玫瑰",
     "occasion": "爱情",
@@ -30,7 +31,7 @@ samples = [
 from langchain.prompts.prompt import PromptTemplate
 prompt_sample = PromptTemplate(input_variables=["flower_type", "occasion", "ad_copy"], 
                                template="鲜花类型: {flower_type}\n场合: {occasion}\n文案: {ad_copy}")
-print(prompt_sample.format(**samples[0]))
+logger.debug(prompt_sample.format(**samples[0]))
 
 # 3. 创建一个FewShotPromptTemplate对象
 from langchain.prompts.few_shot import FewShotPromptTemplate
@@ -40,30 +41,36 @@ prompt = FewShotPromptTemplate(
     suffix="鲜花类型: {flower_type}\n场合: {occasion}",
     input_variables=["flower_type", "occasion"]
 )
-print(prompt.format(flower_type="野玫瑰", occasion="爱情"))
+logger.debug(prompt.format(flower_type="野玫瑰", occasion="爱情"))
 
 # 4. 把提示传递给大模型
 from dotenv import load_dotenv  # 用于加载环境变量
 load_dotenv()  # 加载 .env 文件中的环境变量
-from langchain.llms import OpenAI
-model = OpenAI(model_name='gpt-3.5-turbo-instruct')
-result = model(prompt.format(flower_type="野玫瑰", occasion="爱情"))
-print(result)
+import os
+# from langchain.llms import OpenAI
+# model = ChatOpenAI(model_name='gpt-3.5-turbo')
+from langchain_openai import ChatOpenAI
+# 6.创建模型实例
+# model = ChatOpenAI(model_name='gpt-3.5-turbo')
+model = ChatOpenAI(model_name='gpt-3.5-turbo')
+
+result = model.invoke(prompt.format(flower_type="野玫瑰", occasion="爱情"))
+logger.debug(result)
 
 # 5. 使用示例选择器
 from langchain.prompts.example_selector import SemanticSimilarityExampleSelector
 # from langchain.vectorstores import Qdrant
 from langchain.vectorstores import Chroma
-from langchain.embeddings import OpenAIEmbeddings
+from langchain_openai import OpenAIEmbeddings
 
 # 初始化示例选择器
 example_selector = SemanticSimilarityExampleSelector.from_examples(
     samples,
-    OpenAIEmbeddings(openai_api_base="https://api.chatanywhere.cn/v1"),
+    OpenAIEmbeddings(openai_api_base=os.environ.get("OPENAI_API_BASE")),
     Chroma,
     k=1
 )
-
+logger.debug(example_selector)
 # 创建一个使用示例选择器的FewShotPromptTemplate对象
 prompt = FewShotPromptTemplate(
     example_selector=example_selector, 
@@ -71,9 +78,10 @@ prompt = FewShotPromptTemplate(
     suffix="鲜花类型: {flower_type}\n场合: {occasion}", 
     input_variables=["flower_type", "occasion"]
 )
+logger.debug(prompt)
 real_prompt = prompt.format(flower_type="红玫瑰", occasion="爱情")
-print(real_prompt)
+logger.debug(real_prompt)
 
-model = OpenAI(model_name='gpt-3.5-turbo-instruct')
-result = model(real_prompt)
-print(result)
+model = ChatOpenAI(model_name='gpt-3.5-turbo')
+result = model.invoke(real_prompt)
+logger.debug(result)

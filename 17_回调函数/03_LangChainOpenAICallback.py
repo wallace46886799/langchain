@@ -4,13 +4,13 @@ from dotenv import load_dotenv  # 用于加载环境变量
 load_dotenv()  # 加载 .env 文件中的环境变量
 
 import asyncio
-from langchain import OpenAI
+from langchain_openai import ChatOpenAI
 from langchain.chains import ConversationChain
 from langchain.chains.conversation.memory import ConversationBufferMemory
 from langchain.callbacks import get_openai_callback
 
 # 初始化大语言模型
-llm = OpenAI(temperature=0.5, model_name="gpt-3.5-turbo-instruct")
+llm = ChatOpenAI(temperature=0.5, model_name="gpt-3.5-turbo")
 
 # 初始化对话链
 conversation = ConversationChain(

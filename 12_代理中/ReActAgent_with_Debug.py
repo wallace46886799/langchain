@@ -9,7 +9,7 @@ os.environ["SERPAPI_API_KEY"] = '068163c315bc7a57a8d7c5321f79367aaa594dd3580661c
 
 # 试一试LangChain的Debug和Verbose，看看有何区别
 import langchain
-# langchain.debug = True
+langchain.debug = True
 langchain.verbose = True
 
 # 配置日志输出
@@ -20,8 +20,8 @@ logging.getLogger().addHandler(logging.StreamHandler(stream=sys.stdout))
 
 # 跟踪与openai的通信
 import openai
-openai.api_key = os.environ["OPENAI_API_KEY"]
-# openai.log = "debug"
+# openai.api_key = os.environ["OPENAI_API_KEY"]
+openai.log = "debug"
 
 # 加载所需的库
 from langchain.agents import load_tools
@@ -30,7 +30,7 @@ from langchain.agents import AgentType
 from langchain.llms import OpenAI
 
 # 初始化大模型
-llm = OpenAI(temperature=0)
+llm = ChatOpenAI(temperature=0)
 
 # 设置工具
 tools = load_tools(["serpapi", "llm-math"], llm=llm)

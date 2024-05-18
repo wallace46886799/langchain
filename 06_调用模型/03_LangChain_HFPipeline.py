@@ -16,7 +16,7 @@ pipeline = transformers.pipeline(
     model=model,
     torch_dtype=torch.float16,
     device_map="auto",
-    max_length = 1000
+    max_length=1000
 )
 
 # 创建HuggingFacePipeline实例
@@ -37,7 +37,6 @@ prompt = PromptTemplate(template=template,
                      input_variables=["flower_details"])
 
 # 创建LLMChain实例
-from langchain import PromptTemplate
 llm_chain = LLMChain(prompt=prompt, llm=llm)
 
 # 需要生成描述的花束的详细信息

@@ -106,9 +106,11 @@ jupyterlab-pygments==0.2.2
 jupyterlab-widgets==3.0.9
 jupyterlab_server==2.25.0
 kiwisolver==1.4.5
-langchain==0.1.0
-langchain-community==0.0.9
-langchain-core==0.1.7
+langchain==0.1.20
+# langchain-community==0.0.9
+langchain-community==0.0.38
+langchain-core==0.1.52
+langchain-openai=0.0.2
 langchain-experimental==0.0.23
 langchain-openai==0.0.2
 langchainhub==0.1.14
@@ -139,7 +141,8 @@ notebook_shim==0.2.3
 numexpr==2.8.5
 numpy==1.25.2
 oauthlib==3.2.2
-openai==1.6.1
+# openai==1.6.1，需要使用低版本的openai
+openai==1.28.1
 orjson==3.9.8
 outcome==1.2.0
 overrides==7.4.0

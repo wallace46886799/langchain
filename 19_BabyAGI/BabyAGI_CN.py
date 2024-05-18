@@ -278,7 +278,7 @@ if __name__ == "__main__":
 
 
     OBJECTIVE = "分析一下北京市今天的气候情况，写出鲜花储存策略。"
-    llm = OpenAI(temperature=0)
+    llm = ChatOpenAI(temperature=0)
     verbose = False
     max_iterations: Optional[int] = 6
     baby_agi = BabyAGI.from_llm(llm=llm, vectorstore=vectorstore, 

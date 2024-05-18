@@ -9,13 +9,13 @@ from dotenv import load_dotenv  # 用于加载环境变量
 load_dotenv()  # 加载 .env 文件中的环境变量
 
 # 导入所需的库
-from langchain import OpenAI
+from langchain_openai import ChatOpenAI
 from langchain.chains import ConversationChain
 
 # 初始化大语言模型
-llm = OpenAI(
+llm = ChatOpenAI(
     temperature=0.5,
-    model_name="gpt-3.5-turbo-instruct"
+    model_name="gpt-3.5-turbo"
 )
 
 # 初始化对话链

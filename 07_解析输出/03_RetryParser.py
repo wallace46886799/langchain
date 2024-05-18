@@ -49,7 +49,7 @@ print('OutputFixingParser的parse结果:',parse_result)
 from langchain.output_parsers import RetryWithErrorOutputParser
 from langchain.llms import OpenAI
 retry_parser = RetryWithErrorOutputParser.from_llm(
-    parser=parser, llm=OpenAI(temperature=0)
+    parser=parser, llm=ChatOpenAI(temperature=0)
 )
 parse_result = retry_parser.parse_with_prompt(bad_response, prompt_value)
 print('RetryWithErrorOutputParser的parse结果:',parse_result)

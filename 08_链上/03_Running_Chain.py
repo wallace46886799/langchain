@@ -18,7 +18,7 @@ prompt = PromptTemplate(
 )
 
 # 初始化大模型
-llm = OpenAI(temperature=0)
+llm = ChatOpenAI(temperature=0)
 
 # 初始化链
 llm_chain = LLMChain(llm=llm, prompt=prompt)

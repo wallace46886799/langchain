@@ -15,7 +15,7 @@ from langchain.agents import AgentType
 from langchain.llms import OpenAI
 
 # 初始化大模型
-llm = OpenAI(temperature=0)
+llm = ChatOpenAI(temperature=0)
 
 # 设置工具
 tools = load_tools(["serpapi", "llm-math"], llm=llm)
