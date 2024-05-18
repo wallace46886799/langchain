@@ -1,143 +1,110 @@
-import ast
-import json
-from langchain.llms.base import LLM
-from transformers import AutoTokenizer, AutoModel, AutoConfig
-from typing import List, Optional
+"""
+This script demonstrates the use of the LangChain's StructuredChatAgent and AgentExecutor alongside various tools
 
+The script utilizes the ChatGLM3 model, a large language model for understanding and generating human-like text.
+The model is loaded from a specified path and integrated into the chat agent.
 
-class ChatGLM3(LLM):
-    max_token: int = 8192
-    do_sample: bool = True
-    temperature: float = 0.8
-    top_p = 0.8
-    tokenizer: object = None
-    model: object = None
-    history: List = []
-    has_search: bool = False
+Tools:
+- Calculator: Performs arithmetic calculations.
+- Weather: Provides weather-related information based on input queries.
+- DistanceConverter: Converts distances between meters, kilometers, and feet.
 
-    def __init__(self):
-        super().__init__()
+The agent operates in three modes:
+1. Single Parameter without History: Uses Calculator to perform simple arithmetic.
+2. Single Parameter with History: Uses Weather tool to answer queries about temperature, considering the
+conversation history.
+3. Multiple Parameters without History: Uses DistanceConverter to convert distances between specified units.
+4. Single use Langchain Tool: Uses Arxiv tool to search for scientific articles.
 
-    @property
-    def _llm_type(self) -> str:
-        return "ChatGLM3"
+Note:
+The model calling tool fails, which may cause some errors or inability to execute. Try to reduce the temperature
+parameters of the model, or reduce the number of tools, especially the third function.
+The success rate of multi-parameter calling is low. The following errors may occur:
 
-    def load_model(self, model_name_or_path=None):
-        model_config = AutoConfig.from_pretrained(
-            model_name_or_path,
-            trust_remote_code=True
-        )
-        self.tokenizer = AutoTokenizer.from_pretrained(
-            model_name_or_path,
-            trust_remote_code=True
-        )
-        self.model = AutoModel.from_pretrained(
-            model_name_or_path, config=model_config, trust_remote_code=True, device_map="auto").eval()
+Required fields [type=missing, input_value={'distance': '30', 'unit': 'm', 'to': 'km'}, input_type=dict]
 
-    def _tool_history(self, prompt: str):
-        ans = []
+The model illusion in this case generates parameters that do not meet the requirements.
+The top_p and temperature parameters of the model should be adjusted to better solve such problems.
 
-        tool_prompts = prompt.split(
-            "You have access to the following tools:\n\n")[1].split("\n\nUse a json blob")[0].split("\n")
-        tools_json = []
+Success example:
 
-        for tool_desc in tool_prompts:
-            name = tool_desc.split(":")[0]
-            description = tool_desc.split(", args:")[0].split(":")[1].strip()
-            parameters_str = tool_desc.split("args:")[1].strip()
-            parameters_dict = ast.literal_eval(parameters_str)
-            params_cleaned = {}
-            for param, details in parameters_dict.items():
-                params_cleaned[param] = {'description': details['description'], 'type': details['type']}
+*****Action*****
 
-            tools_json.append({
-                "name": name,
-                "description": description,
-                "parameters": params_cleaned
-            })
-
-        ans.append({
-            "role": "system",
-            "content": "Answer the following questions as best as you can. You have access to the following tools:",
-            "tools": tools_json
-        })
-
-        dialog_parts = prompt.split("Human: ")
-        for part in dialog_parts[1:]:
-            if "\nAI: " in part:
-                user_input, ai_response = part.split("\nAI: ")
-                ai_response = ai_response.split("\n")[0]
-            else:
-                user_input = part
-                ai_response = None
-
-            ans.append({"role": "user", "content": user_input.strip()})
-            if ai_response:
-                ans.append({"role": "assistant", "content": ai_response.strip()})
-
-        query = dialog_parts[-1].split("\n")[0]
-        return ans, query
-
-    def _extract_observation(self, prompt: str):
-        return_json = prompt.split("Observation: ")[-1].split("\nThought:")[0]
-        self.history.append({
-            "role": "observation",
-            "content": return_json
-        })
-        return
-
-    def _extract_tool(self):
-        if len(self.history[-1]["metadata"]) > 0:
-            metadata = self.history[-1]["metadata"]
-            content = self.history[-1]["content"]
-
-            lines = content.split('\n')
-            for line in lines:
-                if 'tool_call(' in line and ')' in line and self.has_search is False:
-                    # 获取括号内的字符串
-                    params_str = line.split('tool_call(')[-1].split(')')[0]
-
-                    # 解析参数对
-                    params_pairs = [param.split("=") for param in params_str.split(",") if "=" in param]
-                    params = {pair[0].strip(): pair[1].strip().strip("'\"") for pair in params_pairs}
-                    action_json = {
-                        "action": metadata,
-                        "action_input": params
-                    }
-                    self.has_search = True
-                    print("*****Action*****")
-                    print(action_json)
-                    print("*****Answer*****")
-                    return f"""
-Action: 
-```
-{json.dumps(action_json, ensure_ascii=False)}
-```"""
-        final_answer_json = {
-            "action": "Final Answer",
-            "action_input": self.history[-1]["content"]
+{
+    'action': 'weather',
+    'action_input': {
+        'location': '厦门'
         }
-        self.has_search = False
-        return f"""
-Action: 
-```
-{json.dumps(final_answer_json, ensure_ascii=False)}
-```"""
+}
 
-    def _call(self, prompt: str, history: List = [], stop: Optional[List[str]] = ["<|user|>"]):
-        if not self.has_search:
-            self.history, query = self._tool_history(prompt)
-        else:
-            self._extract_observation(prompt)
-            query = ""
-        _, self.history = self.model.chat(
-            self.tokenizer,
-            query,
-            history=self.history,
-            do_sample=self.do_sample,
-            max_length=self.max_token,
-            temperature=self.temperature,
-        )
-        response = self._extract_tool()
-        history.append((prompt, response))
-        return response
+*****Answer*****
+
+{
+    'input': '厦门比北京热吗?',
+    'chat_history': [HumanMessage(content='北京温度多少度'), AIMessage(content='北京现在12度')],
+    'output': '根据最新的天气数据，厦门今天的气温为18度，天气晴朗。而北京今天的气温为12度。所以，厦门比北京热。'
+}
+
+****************
+
+"""
+
+import os
+
+from langchain import hub
+from langchain.agents import AgentExecutor, create_structured_chat_agent, load_tools
+from langchain_core.messages import AIMessage, HumanMessage
+
+from ChatGLM3 import ChatGLM3
+from tools.Calculator import Calculator
+from tools.Weather import Weather
+from tools.DistanceConversion import DistanceConverter
+
+MODEL_PATH = os.environ.get('MODEL_PATH', 'THUDM/chatglm3-6b')
+
+if __name__ == "__main__":
+    llm = ChatGLM3()
+    llm.load_model(MODEL_PATH)
+    prompt = hub.pull("hwchase17/structured-chat-agent")
+
+    # for single parameter without history
+
+    tools = [Calculator()]
+    agent = create_structured_chat_agent(llm=llm, tools=tools, prompt=prompt)
+    agent_executor = AgentExecutor(agent=agent, tools=tools)
+    ans = agent_executor.invoke({"input": "34 * 34"})
+    print(ans)
+
+    # for singe parameter with history
+
+    tools = [Weather()]
+    agent = create_structured_chat_agent(llm=llm, tools=tools, prompt=prompt)
+    agent_executor = AgentExecutor(agent=agent, tools=tools)
+    ans = agent_executor.invoke(
+        {
+            "input": "厦门比北京热吗?",
+            "chat_history": [
+                HumanMessage(content="北京温度多少度"),
+                AIMessage(content="北京现在12度"),
+            ],
+        }
+    )
+    print(ans)
+
+    # for multiple parameters without history
+
+    tools = [DistanceConverter()]
+    agent = create_structured_chat_agent(llm=llm, tools=tools, prompt=prompt)
+    agent_executor = AgentExecutor(agent=agent, tools=tools)
+    ans = agent_executor.invoke({"input": "how many meters in 30 km?"})
+
+    print(ans)
+
+    # for using langchain tools
+
+    tools = load_tools(["arxiv"], llm=llm)
+    agent = create_structured_chat_agent(llm=llm, tools=tools, prompt=prompt)
+    agent_executor = AgentExecutor(agent=agent, tools=tools)
+    ans = agent_executor.invoke({"input": "Describe the paper about GLM 130B"})
+
+    print(ans)

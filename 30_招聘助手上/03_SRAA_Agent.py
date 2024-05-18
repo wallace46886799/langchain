@@ -28,7 +28,7 @@ def get_url():
 db_url = get_url()
 db = SQLDatabase.from_uri(db_url)
 # mysql+pymysql://user:pass@some_mysql_db_address/db_name
-llm = OpenAI(temperature=0, verbose=True)
+llm = ChatOpenAI(temperature=0, verbose=True)
 
 # 创建SQL Agent
 agent_executor = create_sql_agent(

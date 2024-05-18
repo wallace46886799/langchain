@@ -1,8 +1,8 @@
 from openai import OpenAI
 
-client = OpenAI(
+client = ChatOpenAI(
     api_key="EMPTY",
-    base_url="http://192.168.20.59:7891/v1/",
+    base_url="http://localhost:8000/v1/",
 )
 
 

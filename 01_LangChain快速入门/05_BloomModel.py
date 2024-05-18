@@ -8,6 +8,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 from langchain import HuggingFaceHub
-llm = HuggingFaceHub(repo_id="bigscience/bloom-1b7")
-resp = llm.predict("请给我的花店起个名")
-print(resp)
+model_name = "bigscience/bloom-1b7"
+llm = HuggingFaceHub(repo_id=model_name)
+response = llm.predict("请给我的花店起个名")
+from loguru import logger
+logger.debug("HuggingFaceHub的Text模型：{}返回的花店名称为：{}".format(model_name,response))

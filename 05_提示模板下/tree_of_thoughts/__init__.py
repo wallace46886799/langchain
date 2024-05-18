@@ -1,7 +1,7 @@
-from tree_of_thoughts.tot_agent import (
+from .tot_agent import (
     ToTAgent,
 )
-from tree_of_thoughts.treeofthoughts import (
+from .treeofthoughts import (
     MonteCarloSearch,
     TreeofThoughts,
     ASearch,
