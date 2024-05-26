@@ -5,7 +5,6 @@ https://time.geekbang.org/column/intro/100617601
 import os
 from dotenv import load_dotenv  # 用于加载环境变量
 load_dotenv()  # 加载 .env 文件中的环境变量
-os.environ["SERPAPI_API_KEY"] = '068163c315bc7a57a8d7c5321f79367aaa594dd3580661c7abeda29f507e52ea'  # 068163c315bc7a57a8d7c5321f79367aaa594dd3580661c7abeda29f507e52ea
 
 # 试一试LangChain的Debug和Verbose，看看有何区别
 import langchain
@@ -27,7 +26,7 @@ openai.log = "debug"
 from langchain.agents import load_tools
 from langchain.agents import initialize_agent
 from langchain.agents import AgentType
-from langchain.llms import OpenAI
+from langchain_openai import ChatOpenAI
 
 # 初始化大模型
 llm = ChatOpenAI(temperature=0)
@@ -39,4 +38,4 @@ tools = load_tools(["serpapi", "llm-math"], llm=llm)
 agent = initialize_agent(tools, llm, agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION, verbose=True)
 
 # 跑起来
-agent.run("目前市场上玫瑰花的平均价格是多少？如果我在此基础上加价15%卖出，应该如何定价？")
+agent.invoke("目前市场上玫瑰花的平均价格是多少？如果我在此基础上加价15%卖出，应该如何定价？")

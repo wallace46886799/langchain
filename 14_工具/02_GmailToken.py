@@ -21,6 +21,7 @@ def main():
     # created automatically when the authorization flow completes for the first
     # time.
     if os.path.exists('token.json'):
+        # Credentials.from_authorized_user_info()
         creds = Credentials.from_authorized_user_file('token.json', SCOPES)
     # If there are no (valid) credentials available, let the user log in.
     if not creds or not creds.valid:

@@ -22,7 +22,7 @@ tools = toolkit.get_tools()
 print(tools)
 
 from langchain.agents import initialize_agent, AgentType
-from langchain.chat_models import ChatOpenAI
+from langchain_openai import ChatOpenAI
 
 # LLM不稳定，对于这个任务，可能要多跑几次才能得到正确结果
 llm = ChatOpenAI(temperature=0.5)

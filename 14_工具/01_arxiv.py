@@ -3,7 +3,7 @@ import os
 from dotenv import load_dotenv  # 用于加载环境变量load_dotenv()  # 加载 .env 文件中的环境变量
 
 # 导入库
-from langchain.chat_models import ChatOpenAI
+from langchain_openai import ChatOpenAI
 from langchain.agents import load_tools, initialize_agent, AgentType
 
 # 初始化模型和工具

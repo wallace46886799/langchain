@@ -2,6 +2,8 @@
 https://time.geekbang.org/column/intro/100617601
 作者 黄佳'''
 # 导入HuggingFace API Token
+# import os
+# os.environ["PYTORCH_MPS_HIGH_WATERMARK_RATIO"] = 0.0
 from dotenv import load_dotenv  # 用于加载环境变量
 load_dotenv()  # 加载 .env 文件中的环境变量
 # 导入必要的库

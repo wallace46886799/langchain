@@ -15,5 +15,5 @@ llm = ChatOpenAI(base_url=os.environ.get("OPENAI_API_BASE"),
     temperature=0.8,
     max_tokens=60)
 from loguru import logger
-response = llm.predict("请给我的花店起个名")
+response = llm.invoke("请给我的花店起个名")
 logger.debug(response)

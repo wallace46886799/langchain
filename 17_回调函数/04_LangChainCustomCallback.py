@@ -6,7 +6,7 @@ load_dotenv()  # 加载 .env 文件中的环境变量
 import asyncio
 from typing import Any, Dict, List
 
-from langchain.chat_models import ChatOpenAI
+from langchain_openai import ChatOpenAI
 from langchain.schema import LLMResult, HumanMessage
 from langchain.callbacks.base import AsyncCallbackHandler, BaseCallbackHandler
 

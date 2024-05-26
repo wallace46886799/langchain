@@ -27,7 +27,7 @@ load_dotenv()  # 加载 .env 文件中的环境变量
 
 
 from openai import OpenAI
-client = ChatOpenAI(
+client = OpenAI(
   api_key=os.environ.get("OPENAI_API_KEY"),
   base_url=os.environ.get("OPENAI_API_BASE"))
 model_name = "gpt-3.5-turbo"
@@ -42,4 +42,4 @@ response = client.chat.completions.create(
 )
 
 from loguru import logger
-logger.debug("OpenAI的Text模型：{}返回的花店名称为：{}".format(model_name,response.choices[0].message.content))
+logger.debug("OpenAI的Chat模型：{}；返回的花店名称为：{}".format(model_name,response.choices[0].message.content))

@@ -23,7 +23,7 @@ conversation = ConversationChain(
     llm=llm,
     memory=ConversationSummaryBufferMemory(
         llm=llm,
-        max_token_limit=300
+        max_token_limit=1000
     )
 )
 

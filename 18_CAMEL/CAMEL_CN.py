@@ -1,11 +1,12 @@
 # 设置OpenAI API密钥
 import os
 from dotenv import load_dotenv  # 用于加载环境变量
+
 load_dotenv()  # 加载 .env 文件中的环境变量
 
 # 导入所需的库
 from typing import List
-from langchain.chat_models import ChatOpenAI
+from langchain_openai import ChatOpenAI
 from langchain.prompts.chat import (
     SystemMessagePromptTemplate,
     HumanMessagePromptTemplate,
@@ -17,12 +18,13 @@ from langchain.schema import (
     BaseMessage,
 )
 
+
 # 定义CAMELAgent类，用于管理与语言模型的交互
 class CAMELAgent:
     def __init__(
-        self,
-        system_message: SystemMessage,
-        model: ChatOpenAI,
+            self,
+            system_message: SystemMessage,
+            model: ChatOpenAI,
     ) -> None:
         self.system_message = system_message
         self.model = model
@@ -50,7 +52,8 @@ class CAMELAgent:
         self.update_messages(output_message)
 
         return output_message
-    
+
+
 # 设置一些预设的角色和任务提示
 assistant_role_name = "花店营销专员"
 user_role_name = "花店老板"
@@ -66,7 +69,7 @@ task_specifier_prompt = """这是一个{assistant_role_name}将帮助{user_role_
 task_specifier_template = HumanMessagePromptTemplate.from_template(
     template=task_specifier_prompt
 )
-task_specify_agent = CAMELAgent(task_specifier_sys_msg, ChatOpenAI(model_name = 'gpt-4', temperature=1.0))
+task_specify_agent = CAMELAgent(task_specifier_sys_msg, ChatOpenAI(model_name='gpt-4', temperature=1.0))
 task_specifier_msg = task_specifier_template.format_messages(
     assistant_role_name=assistant_role_name,
     user_role_name=user_role_name,
@@ -97,7 +100,6 @@ assistant_inception_prompt = """永远不要忘记你是{assistant_role_name}，
 
 <YOUR_SOLUTION>应该是具体的，并为解决任务提供首选的实现和例子。
 始终以“下一个请求”结束<YOUR_SOLUTION>。"""
-
 
 user_inception_prompt = """永远不要忘记你是{user_role_name}，我是{assistant_role_name}。永远不要交换角色！你总是会指导我。
 我们共同的目标是合作成功完成一个任务。
@@ -147,6 +149,7 @@ def get_sys_msgs(assistant_role_name: str, user_role_name: str, task: str):
     )[0]
 
     return assistant_sys_msg, user_sys_msg
+
 
 assistant_sys_msg, user_sys_msg = get_sys_msgs(
     assistant_role_name, user_role_name, specified_task

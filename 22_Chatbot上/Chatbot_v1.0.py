@@ -8,7 +8,7 @@ from langchain.schema import (
     HumanMessage,
     SystemMessage
 )
-from langchain.chat_models import ChatOpenAI
+from langchain_openai import ChatOpenAI
 
 # 创建一个聊天模型的实例
 chat = ChatOpenAI()

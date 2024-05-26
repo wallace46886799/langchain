@@ -4,7 +4,7 @@ from dotenv import load_dotenv  # 用于加载环境变量
 load_dotenv()  # 加载 .env 文件中的环境变量
 # 导入所需的库和模块
 from langchain.schema import HumanMessage, SystemMessage
-from langchain.chat_models import ChatOpenAI
+from langchain_openai import ChatOpenAI
 
 # 定义一个命令行聊天机器人的类
 class CommandlineChatbot:

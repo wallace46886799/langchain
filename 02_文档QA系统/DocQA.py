@@ -48,7 +48,7 @@ vectorstore = Qdrant.from_documents(
 
 # 4. Retrieval 准备模型和Retrieval链
 import logging  # 导入Logging工具
-from langchain.chat_models import ChatOpenAI  # ChatOpenAI模型
+from langchain_openai import ChatOpenAI  # ChatOpenAI模型
 from langchain.retrievers.multi_query import MultiQueryRetriever  # MultiQueryRetriever工具
 from langchain.chains import RetrievalQA  # RetrievalQA链
 

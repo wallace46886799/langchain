@@ -1,6 +1,6 @@
 from dotenv import load_dotenv  # 用于加载环境变量
 # 创建聊天模型
-from langchain.chat_models import ChatOpenAI
+from langchain_openai import ChatOpenAI
 from langchain.output_parsers import OutputFixingParser
 from langchain.output_parsers import RetryWithErrorOutputParser
 from langchain.output_parsers import PydanticOutputParser

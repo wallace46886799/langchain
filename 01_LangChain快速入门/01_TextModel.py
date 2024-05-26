@@ -22,7 +22,7 @@ import os
 # print(response.choices[0].text.strip())
 # TODO.
 from openai import OpenAI
-client = ChatOpenAI(
+client = OpenAI(
   api_key=os.environ.get("OPENAI_API_KEY"),
   base_url=os.environ.get("OPENAI_API_BASE"))
 
@@ -37,7 +37,7 @@ model_name = "gpt-3.5-turbo"
 #   temperature=0.5,
 #   max_tokens=100,
 #   prompt="请给我的花店起个名")
-
+# 由于Chatanywhere的限制，我们只能使用Chat模型
 response = client.chat.completions.create(
     messages=[
         {
@@ -50,4 +50,4 @@ response = client.chat.completions.create(
     model=model_name,
 )
 from loguru import logger
-logger.debug("OpenAI的Text模型：{}返回的花店名称为：{}".format(model_name,response.choices[0].message.content))
+logger.debug("OpenAI的Text模型：{}；返回的花店名称为：{}".format(model_name,response.choices[0].message.content))

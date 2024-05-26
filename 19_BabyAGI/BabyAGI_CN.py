@@ -1,9 +1,10 @@
 # 设置API Key
 import warnings
+
 warnings.filterwarnings("ignore")
 
-import os
 from dotenv import load_dotenv  # 用于加载环境变量
+
 load_dotenv()  # 加载 .env 文件中的环境变量
 
 # 导入所需的库和模块
@@ -12,14 +13,14 @@ from typing import Dict, List, Optional, Any
 from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
 from langchain.embeddings import OpenAIEmbeddings
-from langchain.llms import BaseLLM, OpenAI
+from langchain.llms import BaseLLM
 from langchain.vectorstores.base import VectorStore
 from pydantic import BaseModel, Field
 from langchain.chains.base import Chain
 from langchain.vectorstores import FAISS
+from langchain_openai import ChatOpenAI
 import faiss
 from langchain.docstore import InMemoryDocstore
-
 
 # 定义嵌入模型
 embeddings_model = OpenAIEmbeddings()
@@ -28,9 +29,11 @@ embedding_size = 1536
 index = faiss.IndexFlatL2(embedding_size)
 vectorstore = FAISS(embeddings_model.embed_query, index, InMemoryDocstore({}), {})
 
+
 # 任务生成链
 class TaskCreationChain(LLMChain):
     """负责生成任务的链"""
+
     @classmethod
     def from_llm(cls, llm: BaseLLM, verbose: bool = True) -> LLMChain:
         """从LLM获取响应解析器"""
@@ -54,10 +57,12 @@ class TaskCreationChain(LLMChain):
             ],
         )
         return cls(prompt=prompt, llm=llm, verbose=verbose)
-    
+
+
 # 任务优先级链
 class TaskPrioritizationChain(LLMChain):
     """负责任务优先级排序的链"""
+
     @classmethod
     def from_llm(cls, llm: BaseLLM, verbose: bool = True) -> LLMChain:
         """从LLM获取响应解析器"""
@@ -75,7 +80,8 @@ class TaskPrioritizationChain(LLMChain):
             input_variables=["task_names", "next_task_id", "objective"],
         )
         return cls(prompt=prompt, llm=llm, verbose=verbose)
-    
+
+
 # 任务执行链
 class ExecutionChain(LLMChain):
     """负责执行任务的链"""
@@ -94,13 +100,14 @@ class ExecutionChain(LLMChain):
             input_variables=["objective", "context", "task"],
         )
         return cls(prompt=prompt, llm=llm, verbose=verbose)
-    
+
+
 def get_next_task(
-    task_creation_chain: LLMChain,
-    result: Dict,
-    task_description: str,
-    task_list: List[str],
-    objective: str,
+        task_creation_chain: LLMChain,
+        result: Dict,
+        task_description: str,
+        task_list: List[str],
+        objective: str,
 ) -> List[Dict]:
     """Get the next task."""
     incomplete_tasks = ", ".join(task_list)
@@ -115,10 +122,10 @@ def get_next_task(
 
 
 def prioritize_tasks(
-    task_prioritization_chain: LLMChain,
-    this_task_id: int,
-    task_list: List[Dict],
-    objective: str,
+        task_prioritization_chain: LLMChain,
+        this_task_id: int,
+        task_list: List[Dict],
+        objective: str,
 ) -> List[Dict]:
     """Prioritize tasks."""
     task_names = [t["task_name"] for t in task_list]
@@ -149,7 +156,7 @@ def _get_top_tasks(vectorstore, query: str, k: int) -> List[str]:
 
 
 def execute_task(
-    vectorstore, execution_chain: LLMChain, objective: str, task: str, k: int = 5
+        vectorstore, execution_chain: LLMChain, objective: str, task: str, k: int = 5
 ) -> str:
     """Execute a task."""
     context = _get_top_tasks(vectorstore, query=objective, k=k)
@@ -256,7 +263,7 @@ class BabyAGI(Chain, BaseModel):
 
     @classmethod
     def from_llm(
-        cls, llm: BaseLLM, vectorstore: VectorStore, verbose: bool = False, **kwargs
+            cls, llm: BaseLLM, vectorstore: VectorStore, verbose: bool = False, **kwargs
     ) -> "BabyAGI":
         """Initialize the BabyAGI Controller."""
         task_creation_chain = TaskCreationChain.from_llm(llm, verbose=verbose)
@@ -271,18 +278,15 @@ class BabyAGI(Chain, BaseModel):
             vectorstore=vectorstore,
             **kwargs,
         )
-    
+
 
 # 主执行部分
 if __name__ == "__main__":
-
-
     OBJECTIVE = "分析一下北京市今天的气候情况，写出鲜花储存策略。"
     llm = ChatOpenAI(temperature=0)
     verbose = False
     max_iterations: Optional[int] = 6
-    baby_agi = BabyAGI.from_llm(llm=llm, vectorstore=vectorstore, 
-                                verbose=verbose, 
+    baby_agi = BabyAGI.from_llm(llm=llm, vectorstore=vectorstore,
+                                verbose=verbose,
                                 max_iterations=max_iterations)
     baby_agi({"objective": OBJECTIVE})
-

@@ -12,4 +12,4 @@ model_name = "bigscience/bloom-1b7"
 llm = HuggingFaceHub(repo_id=model_name)
 response = llm.predict("请给我的花店起个名")
 from loguru import logger
-logger.debug("HuggingFaceHub的Text模型：{}返回的花店名称为：{}".format(model_name,response))
+logger.debug("HuggingFaceHub的Text模型：{}；返回的花店名称为：{}".format(model_name,response))

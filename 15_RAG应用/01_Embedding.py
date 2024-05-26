@@ -6,7 +6,7 @@ load_dotenv()  # 加载 .env 文件中的环境变量
 
 
 # 初始化Embedding类
-from langchain.embeddings import OpenAIEmbeddings
+from langchain_openai import OpenAIEmbeddings
 embeddings_model = OpenAIEmbeddings()
 
 # Embed文本

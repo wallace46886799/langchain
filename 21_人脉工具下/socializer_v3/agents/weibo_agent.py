@@ -3,7 +3,7 @@ from tools.search_tool import get_UID
 
 # 导入所需的库
 from langchain.prompts import PromptTemplate
-from langchain.chat_models import ChatOpenAI
+from langchain_openai import ChatOpenAI
 from langchain.agents import initialize_agent, Tool
 from langchain.agents import AgentType
 
@@ -41,6 +41,6 @@ def lookup_V(flower_type: str) :
     )
 
     # 返回找到的UID
-    ID = agent.run(prompt_template.format_prompt(flower=flower_type))
+    ID = agent.invoke(prompt_template.format_prompt(flower=flower_type))
 
     return ID

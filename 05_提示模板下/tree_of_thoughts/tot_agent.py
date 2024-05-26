@@ -27,7 +27,7 @@ class ToTAgent:
         evaluate_states(states, initial_prompt) -> dict: Evaluate states of reasoning using OpenAI API
 
     Examples:
-        >>> from tree_of_thoughts.tot_agent import ToTAgent
+        # >>> from .tot_agent import ToTAgent
         >>> from swarms import Agent
         >>> agent = Agent()
         >>> model = ToTAgent(agent)

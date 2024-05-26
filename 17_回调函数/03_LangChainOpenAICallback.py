@@ -38,12 +38,12 @@ with get_openai_callback() as cb:
 print("\n总计使用的tokens:", cb.total_tokens)
 
 # 进行更多的异步交互和token计数
-async def additional_interactions():
-    with get_openai_callback() as cb:
-        await asyncio.gather(
-            *[llm.agenerate(["我姐姐喜欢什么颜色的花？"]) for _ in range(3)]
-        )
-    print("\n另外的交互中使用的tokens:", cb.total_tokens)
-
-# 运行异步函数
-asyncio.run(additional_interactions())
+# async def additional_interactions():
+#     with get_openai_callback() as cb:
+#         await asyncio.gather(
+#             *[llm.agenerate(["我姐姐喜欢什么颜色的花？"]) for _ in range(3)]
+#         )
+#     print("\n另外的交互中使用的tokens:", cb.total_tokens)
+#
+# # 运行异步函数
+# asyncio.run(additional_interactions())

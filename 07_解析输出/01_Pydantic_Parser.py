@@ -11,7 +11,7 @@ import os
 
 # 创建模型实例
 from langchain_openai import ChatOpenAI
-# from langchain.chat_models import ChatOpenAI
+# from langchain_openai import ChatOpenAI
 model = ChatOpenAI(model_name='gpt-3.5-turbo')
 # model = ChatOpenAI(model_name='gpt-4')
 
@@ -38,7 +38,7 @@ from langchain.output_parsers import PydanticOutputParser
 output_parser = PydanticOutputParser(pydantic_object=FlowerDescription)
 
 
-# from langchain.chat_models import ChatOpenAI
+# from langchain_openai import ChatOpenAI
 from langchain.output_parsers import OutputFixingParser
 new_parser = OutputFixingParser.from_llm(parser=output_parser, llm=ChatOpenAI())
 output_parser = new_parser

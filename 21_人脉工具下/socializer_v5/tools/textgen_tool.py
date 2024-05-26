@@ -1,6 +1,6 @@
 # 导入所需要的库
 from langchain.prompts import PromptTemplate
-from langchain.chat_models import ChatOpenAI
+from langchain_openai import ChatOpenAI
 from langchain.chains import LLMChain
 from tools.parsing_tool import letter_parser
 

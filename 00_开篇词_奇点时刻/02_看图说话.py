@@ -5,7 +5,6 @@ https://time.geekbang.org/column/intro/100617601
 """
 
 from dotenv import load_dotenv  # 用于加载环境变量
-
 load_dotenv()  # 加载 .env 文件中的环境变量
 
 # ---- Part 0 导入所需要的类
@@ -57,7 +56,7 @@ class ImageCapTool(BaseTool):
 # llm = ChatOpenAI(model_name="gpt-4", temperature=0.2)
 # llm = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0.2)
 from langchain_openai import ChatOpenAI
-llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0.2)
+llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0.8)
 # 使用工具初始化智能体并运行
 tools = [ImageCapTool()]
 agent = initialize_agent(
@@ -71,8 +70,9 @@ agent = initialize_agent(
 #     tools=tools,
 #     llm=llm,
 # )
-# 经常因为网络问题导致访问不成功。
+# 经常因为网络问题导致访问不成功，需要使用ClashX代理
 img_url = 'https://mir-s3-cdn-cf.behance.net/project_modules/hd/eec79e20058499.563190744f903.jpg'
 logger.debug("输入的海报图片为：{}".format(img_url))
-# agent.run(input=f"{img_url}\n请创作合适的中文推广文案")
-agent.invoke(input=f"{img_url}\n请创作合适的中文推广文案")
+# agent.invoke(input=f"{img_url}\n请创作合适的中文推广文案")
+response = agent.invoke(input=f"{img_url}\n请根据上面的URL对应的海报图片创作合适的中文宣传推广文案")
+logger.debug("中文推广文案：{}", response)

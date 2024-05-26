@@ -1,7 +1,7 @@
 import transformers
 import torch
 
-model_id = "lmstudio-community/Meta-Llama-3-8B-Instruct-GGUF"
+model_id = "meta-llama/Meta-Llama-3-8B-Instruct"
 
 pipeline = transformers.pipeline(
     "text-generation",

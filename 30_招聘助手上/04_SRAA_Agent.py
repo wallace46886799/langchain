@@ -209,7 +209,7 @@ prompt = chat_prompt.format_prompt(jd_str=jd_str,resume_str=resume_str).to_messa
 print(prompt)
 
 
-output = agent.run(prompt)
+output = agent.invoke(prompt)
 
 print("*"*150)
 print(output)

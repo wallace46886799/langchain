@@ -39,7 +39,7 @@ load_dotenv()  # 加载 .env 文件中的环境变量
 
 # 尝试用OutputFixingParser来解决这个问题
 from langchain.output_parsers import OutputFixingParser
-from langchain.chat_models import ChatOpenAI
+from langchain_openai import ChatOpenAI
 
 fix_parser = OutputFixingParser.from_llm(parser=parser, llm=ChatOpenAI())
 parse_result = fix_parser.parse(bad_response)
